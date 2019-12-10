@@ -1,7 +1,8 @@
--- Пусть имеется таблица с календарным полем created_at.
--- В ней размещены разряженые календарные записи за август 2018 года '2018-08-01', '2016-08-04', '2018-08-16' и 2018-08-17. 
--- Составьте запрос, который выводит полный список дат за август, выставляя в соседнем поле значение 1, 
--- если дата присутствует в исходном таблице и 0, если она отсутствует.
+ -- Пусть имеется таблица с календарным полем created_at. 
+ -- В ней размещены разряженые календарные записи за август 2018 года '2018-08-01', '2016-08-04', '2018-08-16' и 2018-08-17. 
+ -- Составьте запрос, который выводит полный список дат за август, выставляя в соседнем поле значение 1, 
+ -- если дата присутствует в исходном таблице и 0, если она отсутствует.
+
 DROP TABLE IF EXISTS task_3_9;
 CREATE TABLE task_3_9 (
 	created_at DATE 
@@ -18,5 +19,12 @@ DELETE FROM accounts;
 insert  into accounts(name, passwd, created_at) values ('Oleg', 'qwerty','2018-08-05'), ('Oleg', 'qwerty','2018-08-11'),
 ('Oleg', 'qwerty','2018-08-03'), ('Oleg', 'qwerty','2018-08-22'), ('Oleg', 'qwerty','2018-08-22');
 
-SELECT a.created_at,t.created_at,(IF (a.created_at = t.created_at,1,0)) AS res FROM accounts AS a
+DROP VIEW IF EXISTS view_query_date;
+CREATE VIEW shop.view_query_date
+AS SELECT 
+t.created_at,
+(IF (a.created_at = t.created_at,1,0))AS res 
+FROM accounts AS a
 RIGHT JOIN task_3_9 AS t ON a.created_at = t.created_at;
+
+SELECT * FROM view_query_date vqd;
