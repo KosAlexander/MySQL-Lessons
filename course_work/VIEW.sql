@@ -1,5 +1,6 @@
 -- представления (минимум 2);
 -- создадим представление которое выводит нам количество и название оставшегося товара на складах.
+USE shop_armor;
 DROP VIEW IF EXISTS count_of_products;
 CREATE OR REPLACE VIEW count_of_products AS 
 SELECT p.name,
