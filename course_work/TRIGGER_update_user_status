@@ -1,0 +1,30 @@
+USE shop_armor;
+-- Создадим триггер который обнавляет статус клиента после на active, завершения его заказа.
+DROP TRIGGER IF EXISTS update_user_status;
+
+DELIMITER //
+
+CREATE TRIGGER update_user_status AFTER UPDATE ON orders
+FOR EACH ROW 
+BEGIN
+	
+	SET @p_user_id = (SELECT p.user_id
+	FROM profiles p
+	JOIN baskets b ON p.user_id = b.user_id
+	JOIN orders o ON b.id = o.basket_id
+	WHERE o.updated_at = (SELECT MAX(updated_at) FROM orders));	
+    
+	IF (NEW.status = NEW.status) THEN
+	UPDATE profiles 
+	SET status = 'active'
+	WHERE user_id = @p_user_id;
+
+	END IF;
+END//
+
+DELIMITER ;
+
+
+
+
+
