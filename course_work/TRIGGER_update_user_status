@@ -1,5 +1,5 @@
 USE shop_armor;
--- Создадим триггер который обнавляет статус клиента после на active, завершения его заказа.
+-- Создадим триггер, который обнавляет статус клиента после обнавления статуса заказа на complated.
 DROP TRIGGER IF EXISTS update_user_status;
 
 DELIMITER //
@@ -24,7 +24,7 @@ END//
 
 DELIMITER ;
 
-
+UPDATE orders SET status = 'complated' WHERE id = '19';
 
 
 
